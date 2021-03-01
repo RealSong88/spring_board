@@ -1,0 +1,10 @@
+# Directories #
+
+target/
+.settings/
+
+# files
+
+.classpath
+.project
+.springBeans

@@ -14,4 +14,13 @@
 							, #{content}
 							, #{writer})
     </insert>
+    
+    <select id="list" resultType="com.mycompany.vo.BoardVO">
+    	SELECT 	BNO
+    		  , TITLE
+    	      , WRITER
+    		  , REGDATE
+   		  FROM MP_BOARD
+   		  ORDER BY BNO DESC
+    </select>
 </mapper>

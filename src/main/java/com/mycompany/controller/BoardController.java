@@ -45,4 +45,14 @@ public class BoardController {
 		model.addAttribute("list", boardService.list());
 		return "board/list";
 	}
+	
+	// 게시판 조회
+	@RequestMapping(value = "/readView", method = RequestMethod.GET)
+	public String read(BoardVO boardVO, Model model) throws Exception{
+		logger.info("read");
+		
+		model.addAttribute("read", boardService.read(boardVO.getBno()));
+		
+		return "board/readView";
+	}
 }

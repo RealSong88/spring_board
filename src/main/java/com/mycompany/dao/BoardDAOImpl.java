@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycompany.vo.BoardVO;
 import com.mycompany.vo.Criteria;
+import com.mycompany.vo.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -22,13 +23,13 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public List<BoardVO> list(Criteria cri) throws Exception {
-		return sqlSession.selectList("boardMapper.listPage", cri);
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
+		return sqlSession.selectList("boardMapper.listPage", scri);
 	}
 	
 	@Override
-	public int listCount() throws Exception {
-		return sqlSession.selectOne("boardMapper.listCount");
+	public int listCount(SearchCriteria scri) throws Exception {
+		return sqlSession.selectOne("boardMapper.listCount", scri);
 	}
 
 	@Override

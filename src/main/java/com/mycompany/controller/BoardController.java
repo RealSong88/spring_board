@@ -1,5 +1,7 @@
 package com.mycompany.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.service.BoardService;
+import com.mycompany.service.ReplyService;
 import com.mycompany.vo.BoardVO;
 import com.mycompany.vo.PageMaker;
+import com.mycompany.vo.ReplyVO;
 import com.mycompany.vo.SearchCriteria;
 
 @Controller
@@ -24,6 +28,9 @@ public class BoardController {
 	
 	@Inject
 	BoardService boardService;
+	
+	@Inject
+	ReplyService replyService;
 	
 	// 게시판 글 작성 화면
 	@RequestMapping(value = "/board/writeView", method = RequestMethod.GET)
@@ -65,6 +72,9 @@ public class BoardController {
 		
 		model.addAttribute("read", boardService.read(boardVO.getBno()));
 		model.addAttribute("scri", scri);
+		
+		List<ReplyVO> replyList = replyService.readReply(boardVO.getBno());
+		model.addAttribute("replyList", replyList);
 		return "board/readView";
 	}
 	

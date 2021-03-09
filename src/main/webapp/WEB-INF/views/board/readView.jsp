@@ -18,7 +18,7 @@
 			formObj.attr("action", "/board/updateView");
 			formObj.attr("method", "get");
 			formObj.submit();
-		})
+		});
 
 		// 삭제
 		$(".delete_btn").on("click", function() {
@@ -30,7 +30,7 @@
 				formObj.submit();
 			}
 
-		})
+		});
 
 		// 목록
 		$(".list_btn").on("click", function(){
@@ -38,12 +38,33 @@
 			location.href = "/board/list?page=${scri.page}"
 			+"&perPageNum=${scri.perPageNum}"
 			+"&searchType=${scri.searchType}&keyword=${scri.keyword}";
-		})
+		});
 		
+		// 댓글
 		$(".replyWriteBtn").on("click", function(){
 			var formObj = $("form[name='replyForm']");
 			formObj.attr("action", "/board/replyWrite");
 			formObj.submit();
+		});
+		
+		// 댓글 수정 View
+		$(".replyUpdateBtn").on("click", function(){
+			location.href = "/board/replyUpdateView?bno=${read.bno}"
+							+ "&page=${scri.page}"
+							+ "&perPageNum=${scri.perPageNum}"
+							+ "&searchType=${scri.searchType}"
+							+ "&keyword=${scri.keyword}"
+							+ "&rno="+$(this).attr("data-rno");
+		});
+		
+		// 댓글 삭제 View
+		$(".replyDeleteBtn").on("click", function(){
+			location.href = "/board/replyDeleteView?bno=${read.bno}"
+							+ "&page=${scri.page}"
+							+ "&perPageNum=${scri.perPageNum}"
+							+ "&searchType=${scri.searchType}"
+							+ "&keyword=${scri.keyword}"
+							+ "&rno="+$(this).attr("data-rno");
 		})
 	})
 </script>
@@ -107,6 +128,10 @@
 							작성 날짜: <fmt:formatDate value="${replyList.regdate}" pattern="yyyy-MM-dd" />
 							</p>
 							<p>${replyList.content}</p>
+							<div>
+								<button type="button" class="replyUpdateBtn" data-rno="${replyList.rno}">수정</button>
+								<button type="button" class="replyDeleteBtn" data-rno="${replyList.rno}">삭제</button>
+							</div>
 						</li>
 					</c:forEach>
 				</ol>

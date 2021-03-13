@@ -24,4 +24,12 @@ public class MemberDAOImpl implements MemberDAO{
 		return sql.selectOne("memberMapper.login", vo);
 	}
 
+	// 회원정보 수정
+	@Override
+	public void memberUpdate(MemberVO vo) throws Exception {
+		// vo에 담긴 파라미터들은 memberMapper.xml에 memberMapper라는 Namespcae에
+		// 아이디가 memberUpdate인 쿼리에 파라미터를 넣어준다.
+		sql.update("memberMapper.memberUpdate", vo);
+	}
+	
 }

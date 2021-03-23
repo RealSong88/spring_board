@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,9 @@ public class MemberController {
 
 	@Inject
 	MemberService memberService;
+	
+	@Inject
+	BCryptPasswordEncoder pwdEncoder;
 
 	// 회원가입 get
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -48,6 +52,10 @@ public class MemberController {
 			if (result == 1) {
 				return "/member/register";
 			} else if (result == 0) {
+				String inputPass = vo.getUserPass();
+				String pwd = pwdEncoder.encode(inputPass);
+				vo.setUserPass(pwd);
+				
 				memberService.register(vo);
 			}
 		} catch (Exception e) {
@@ -57,18 +65,20 @@ public class MemberController {
 		return "redirect:/";
 	}
 
+	// 로그인 post
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
 		logger.info("post login");
 
 		HttpSession session = req.getSession();
 		MemberVO login = memberService.login(vo);
+		boolean pwdMatch = pwdEncoder.matches(vo.getUserPass(), login.getUserPass());
 
-		if (login == null) {
+		if (login != null && pwdMatch == true) {
+			session.setAttribute("member", login);
+		} else {
 			session.setAttribute("member", null);
 			rttr.addFlashAttribute("msg", false);
-		} else {
-			session.setAttribute("member", login);
 		}
 		return "redirect:/";
 	}
@@ -128,9 +138,10 @@ public class MemberController {
 	// 패스워드 체크
 	@ResponseBody
 	@RequestMapping(value = "/passChk", method = RequestMethod.POST)
-	public int passChk(MemberVO vo) throws Exception {
-		int result = memberService.passChk(vo);
-		return result;
+	public boolean passChk(MemberVO vo) throws Exception {
+		MemberVO login = memberService.login(vo);
+		boolean pwdChk = pwdEncoder.matches(vo.getUserPass(), login.getUserPass());
+		return pwdChk;
 	}
 
 }

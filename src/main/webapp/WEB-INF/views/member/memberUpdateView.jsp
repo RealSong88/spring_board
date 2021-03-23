@@ -31,6 +31,25 @@
 					$("#userName").focus();
 					return false;
 				}
+				$.ajax({
+					url : "/member/passChk",
+					type : "POST",
+					dateType : "json",
+					data : $("#updateForm").serializeArray(),
+					success: function(data){
+						
+						if(data==true){
+							if(confirm("회원수정하시겠습니까?")){
+								$("#updateForm").submit();
+							}
+							
+						}else{
+							alert("패스워드가 틀렸습니다.");
+							return;
+							
+						}
+					}
+				})
 			});
 			
 				
@@ -39,7 +58,7 @@
 	</script>
 	<body>
 		<section id="container">
-			<form action="/member/memberUpdate" method="post">
+			<form id="updateForm" action="/member/memberUpdate" method="post">
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userId">아이디</label>
 					<input class="form-control" type="text" id="userId" name="userId" value="${member.userId}" readonly="readonly"/>

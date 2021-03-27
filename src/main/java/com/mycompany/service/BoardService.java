@@ -1,6 +1,7 @@
 package com.mycompany.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -26,4 +27,7 @@ public interface BoardService {
 	
 	// 게시물 삭제
 	public void delete(int bno) throws Exception;
+	
+	// 첨부파일 조회
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
 }

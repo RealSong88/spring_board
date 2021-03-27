@@ -1,6 +1,7 @@
 package com.mycompany.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -76,6 +77,9 @@ public class BoardController {
 		
 		List<ReplyVO> replyList = replyService.readReply(boardVO.getBno());
 		model.addAttribute("replyList", replyList);
+		
+		List<Map<String, Object>> fileList = boardService.selectFileList(boardVO.getBno());
+		model.addAttribute("file", fileList);
 		return "board/readView";
 	}
 	

@@ -57,5 +57,10 @@ public class BoardServiceImpl implements BoardService{
 	public void delete(int bno) throws Exception {
 		dao.delete(bno);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception {
+		return dao.selectFileList(bno);
+	}
 	
 }

@@ -62,5 +62,10 @@ public class BoardServiceImpl implements BoardService{
 	public List<Map<String, Object>> selectFileList(int bno) throws Exception {
 		return dao.selectFileList(bno);
 	}
+
+	@Override
+	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
+		return dao.selectFileInfo(map);
+	}
 	
 }

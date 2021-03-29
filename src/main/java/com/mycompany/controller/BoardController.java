@@ -94,15 +94,24 @@ public class BoardController {
 		
 		model.addAttribute("update", boardService.read(boardVO.getBno()));
 		model.addAttribute("scri", scri);
+		
+		List<Map<String, Object>> fileList = boardService.selectFileList(boardVO.getBno());
+		model.addAttribute("file", fileList);
 		return "board/updateView";
 	}
 	
 	// 게시판 수정
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) throws Exception {
+	public String update(BoardVO boardVO, 
+						 @ModelAttribute("scri")
+						 SearchCriteria scri, 
+						 RedirectAttributes rttr,
+						 @RequestParam(value="fileNoDel[]") String[] files,
+						 @RequestParam(value="fileNameDel[]") String[] fileNames,
+						 MultipartHttpServletRequest mpRequest) throws Exception {
 		logger.info("update");
 		
-		boardService.update(boardVO);
+		boardService.update(boardVO, files, fileNames, mpRequest);
 		
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());

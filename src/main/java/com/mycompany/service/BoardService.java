@@ -36,4 +36,6 @@ public interface BoardService {
 	
 	// 첨부파일 다운로드
 	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception;
+	
+	// 게시물 조회
 }

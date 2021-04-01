@@ -66,6 +66,11 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public void updateFile(Map<String, Object> map) throws Exception {
 		sqlSession.update("boardMapper.updateFile", map);
+	}
+
+	@Override
+	public void boardHit(int bno) throws Exception {
+		sqlSession.update("boardMapper.boardHit", bno);
 	}	
 	
 }

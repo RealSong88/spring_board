@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycompany.dao.BoardDAO;
@@ -16,6 +18,7 @@ import com.mycompany.vo.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService{
+
 
 	@Resource(name = "fileUtils")
 	private FileUtils fileUtils;
@@ -43,8 +46,10 @@ public class BoardServiceImpl implements BoardService{
 		return dao.listCount(scri);
 	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public BoardVO read(int bno) throws Exception {
+		dao.boardHit(bno);
 		return dao.read(bno);
 	}
 
@@ -83,5 +88,6 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
 		return dao.selectFileInfo(map);
 	}
+	
 	
 }
